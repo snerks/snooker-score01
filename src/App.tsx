@@ -84,7 +84,18 @@ const App = () => {
   // }
 
   const areSnookersRequired = () => {
-    return pointsRemainingForOtherPlayer < playerPoints[playerNumber];
+    return (playerPoints[1 - playerNumber] + pointsRemainingForOtherPlayer) < playerPoints[playerNumber];
+  }
+
+  const foul = (value: number) => {
+    if (playerNumber === 0) {
+      setPlayerPoints([playerPoints[0], playerPoints[1] + value]);
+    } else {
+      setPlayerPoints([playerPoints[0] + value, playerPoints[1]]);
+    }
+
+    setPlayerNumber((playerNumber + 1) % 2);
+    setIsRedOn(redsRemaining > 0);
   }
 
   const potBall = (value: number) => {
@@ -220,13 +231,13 @@ const App = () => {
               Foul
           </div>
             <div>
-              <span className="ball red" onClick={() => potRed()}>X</span>
-              <span className="ball yellow" onClick={() => potYellow()}>X</span>
-              <span className="ball green">X</span>
-              <span className="ball brown">X</span>
-              <span className="ball blue">X</span>
-              <span className="ball pink">X</span>
-              <span className="ball black">X</span>
+              <span className="ball red" onClick={() => foul(4)}>X</span>
+              <span className="ball yellow" onClick={() => foul(4)}>X</span>
+              <span className="ball green" onClick={() => foul(4)}>X</span>
+              <span className="ball brown" onClick={() => foul(4)}>X</span>
+              <span className="ball blue" onClick={() => foul(5)}>X</span>
+              <span className="ball pink" onClick={() => foul(6)}>X</span>
+              <span className="ball black" onClick={() => foul(7)}>X</span>
             </div>
           </div>
         }
