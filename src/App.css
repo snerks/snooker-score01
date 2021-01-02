@@ -14,7 +14,9 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  /* background-color: #282c34; */
+  /* background-color: rgb(60, 180, 113); */
+  background-color: green;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -35,4 +37,38 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.ball {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 30px;
+}
+
+.red {
+  background-color: red;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.green {
+  background-color: rgb(60, 180, 113);
+}
+
+.brown {
+  background-color: brown;
+}
+.blue {
+  background-color: blue;
+}
+
+.pink {
+  background-color: pink;
+}
+.black {
+  background-color: black;
 }

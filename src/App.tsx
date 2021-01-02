@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        {/* <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
@@ -17,7 +17,14 @@ function App() {
           rel="noopener noreferrer"
         >
           Learn React
-        </a>
+        </a> */}
+        <span className="ball red"></span>
+        <span className="ball yellow"></span>
+        <span className="ball green"></span>
+        <span className="ball brown"></span>
+        <span className="ball blue"></span>
+        <span className="ball pink"></span>
+        <span className="ball black"></span>
       </header>
     </div>
   );
