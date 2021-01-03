@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/snooker-score01/static/css/main.1b9c38ce.chunk.css",
-    "main.js": "/snooker-score01/static/js/main.0bf31902.chunk.js",
-    "main.js.map": "/snooker-score01/static/js/main.0bf31902.chunk.js.map",
+    "main.css": "/snooker-score01/static/css/main.707b93f3.chunk.css",
+    "main.js": "/snooker-score01/static/js/main.89868ae4.chunk.js",
+    "main.js.map": "/snooker-score01/static/js/main.89868ae4.chunk.js.map",
     "runtime-main.js": "/snooker-score01/static/js/runtime-main.84426491.js",
     "runtime-main.js.map": "/snooker-score01/static/js/runtime-main.84426491.js.map",
-    "static/js/2.9ce0b71e.chunk.js": "/snooker-score01/static/js/2.9ce0b71e.chunk.js",
-    "static/js/2.9ce0b71e.chunk.js.map": "/snooker-score01/static/js/2.9ce0b71e.chunk.js.map",
+    "static/js/2.98af9d4d.chunk.js": "/snooker-score01/static/js/2.98af9d4d.chunk.js",
+    "static/js/2.98af9d4d.chunk.js.map": "/snooker-score01/static/js/2.98af9d4d.chunk.js.map",
     "static/js/3.70ffdacb.chunk.js": "/snooker-score01/static/js/3.70ffdacb.chunk.js",
     "static/js/3.70ffdacb.chunk.js.map": "/snooker-score01/static/js/3.70ffdacb.chunk.js.map",
     "index.html": "/snooker-score01/index.html",
-    "static/css/main.1b9c38ce.chunk.css.map": "/snooker-score01/static/css/main.1b9c38ce.chunk.css.map",
-    "static/js/2.9ce0b71e.chunk.js.LICENSE.txt": "/snooker-score01/static/js/2.9ce0b71e.chunk.js.LICENSE.txt"
+    "static/css/main.707b93f3.chunk.css.map": "/snooker-score01/static/css/main.707b93f3.chunk.css.map",
+    "static/js/2.98af9d4d.chunk.js.LICENSE.txt": "/snooker-score01/static/js/2.98af9d4d.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.84426491.js",
-    "static/js/2.9ce0b71e.chunk.js",
-    "static/css/main.1b9c38ce.chunk.css",
-    "static/js/main.0bf31902.chunk.js"
+    "static/js/2.98af9d4d.chunk.js",
+    "static/css/main.707b93f3.chunk.css",
+    "static/js/main.89868ae4.chunk.js"
   ]
 }
