@@ -26,6 +26,10 @@ const App = () => {
 
   const [wasLastShotAFoul, setWasLastShotAFoul] = useState(false);
 
+  const getWinningPlayer = () => {
+    return playerPoints[0] > playerPoints[1] ? "1" : "2";
+  }
+
   const newGame = () => {
     setRedsRemaining(15);
     setPointsRemaining(147);
@@ -124,6 +128,154 @@ const App = () => {
     }
   }
 
+  interface SnookersRequiredInfo {
+    isSnookersRequiredTargetPossible: boolean;
+
+    targetValue: number;
+    redCount: number;
+    blackCount: number;
+
+    isYellowRequired: boolean;
+    isGreenRequired: boolean;
+    isBrownRequired: boolean;
+    isBlueRequired: boolean;
+    isPinkRequired: boolean;
+    isBlackRequired: boolean;
+  }
+
+  const getSnookersRequiredTarget = (): SnookersRequiredInfo => {
+    const currentPlayerScore = playerPoints[playerNumber];
+    const otherPlayerScore = playerPoints[1 - playerNumber];
+
+    if (currentPlayerScore + pointsRemaining < otherPlayerScore) {
+      return {
+        isSnookersRequiredTargetPossible: false,
+
+        targetValue: otherPlayerScore + 1,
+        redCount: redsRemaining,
+        blackCount: redsRemaining,
+
+        isBlackRequired: true,
+        isBlueRequired: true,
+        isBrownRequired: true,
+        isGreenRequired: true,
+        isPinkRequired: true,
+        isYellowRequired: true
+      };
+    }
+
+    if (currentPlayerScore > pointsRemainingForOtherPlayer + otherPlayerScore) {
+      return {
+        isSnookersRequiredTargetPossible: true,
+
+        targetValue: pointsRemainingForOtherPlayer + otherPlayerScore + 1,
+        redCount: 0,
+        blackCount: 0,
+
+        isBlackRequired: false,
+        isBlueRequired: false,
+        isBrownRequired: false,
+        isGreenRequired: false,
+        isPinkRequired: false,
+        isYellowRequired: false
+      };
+    }
+
+    let runningTotal = 0;
+
+    const remainingRedsCount = redsRemaining;
+
+    let remainingPointsForOtherPlayer = pointsRemainingForOtherPlayer;
+
+    let currentPlayerRunningTotal = currentPlayerScore;
+
+    for (let index = 0; index < remainingRedsCount; index++) {
+      remainingPointsForOtherPlayer -= 8;
+
+      runningTotal++;
+
+      currentPlayerRunningTotal = currentPlayerScore + runningTotal;
+
+      if (currentPlayerRunningTotal > remainingPointsForOtherPlayer + otherPlayerScore) {
+        return {
+          isSnookersRequiredTargetPossible: true,
+
+          targetValue: currentPlayerRunningTotal,
+          redCount: index + 1,
+          blackCount: index,
+
+          isBlackRequired: false,
+          isBlueRequired: false,
+          isBrownRequired: false,
+          isGreenRequired: false,
+          isPinkRequired: false,
+          isYellowRequired: false
+        };
+      }
+
+      runningTotal += 7;
+
+      currentPlayerRunningTotal = currentPlayerScore + runningTotal;
+
+      if (currentPlayerRunningTotal > remainingPointsForOtherPlayer + otherPlayerScore) {
+        return {
+          isSnookersRequiredTargetPossible: true,
+
+          targetValue: currentPlayerRunningTotal,
+          redCount: index + 1,
+          blackCount: index + 1,
+
+          isBlackRequired: false,
+          isBlueRequired: false,
+          isBrownRequired: false,
+          isGreenRequired: false,
+          isPinkRequired: false,
+          isYellowRequired: false
+        };
+      }
+    }
+
+    for (let index = 2; index < 8; index++) {
+      remainingPointsForOtherPlayer -= index;
+
+      runningTotal += index;
+
+      currentPlayerRunningTotal = currentPlayerScore + runningTotal;
+
+      if (currentPlayerRunningTotal > remainingPointsForOtherPlayer + otherPlayerScore) {
+        return {
+          isSnookersRequiredTargetPossible: true,
+
+          targetValue: currentPlayerRunningTotal,
+          redCount: remainingRedsCount,
+          blackCount: remainingRedsCount,
+
+          isYellowRequired: index >= 2,
+          isGreenRequired: index >= 3,
+          isBrownRequired: index >= 4,
+          isBlueRequired: index >= 5,
+          isPinkRequired: index >= 6,
+          isBlackRequired: index >= 7,
+        };
+      }
+    }
+
+    return {
+      isSnookersRequiredTargetPossible: false,
+
+      targetValue: remainingPointsForOtherPlayer + otherPlayerScore,
+      redCount: remainingRedsCount,
+      blackCount: remainingRedsCount,
+
+      isYellowRequired: true,
+      isGreenRequired: true,
+      isBrownRequired: true,
+      isBlueRequired: true,
+      isPinkRequired: true,
+      isBlackRequired: true,
+    };
+  }
+
   const areSnookersRequiredForOtherPlayer = () => {
     return (playerPoints[1 - playerNumber] + pointsRemainingForOtherPlayer) < playerPoints[playerNumber];
   }
@@ -151,7 +303,12 @@ const App = () => {
 
   const potBall = (value: number) => {
     noFoul();
-    setPointsRemaining(pointsRemaining - value);
+
+    if (isFinalRedColourGone) {
+      setPointsRemaining(pointsRemaining - value);
+    } else {
+      setPointsRemaining(pointsRemaining - (value === 1 ? 1 : 7));
+    }
 
     if (playerNumber === 0) {
       setPlayerPoints([playerPoints[0] + value, playerPoints[1]]);
@@ -281,7 +438,11 @@ const App = () => {
           </div>
         }
 
-        {isGameOver && <div>Frame Over! {wasGameConceded && "Frame conceded by Player " + (playerNumber + 1)}</div>}
+        {isGameOver &&
+          <div>Frame Over!
+            {wasGameConceded && " Frame conceded by Player " + (playerNumber + 1)}
+            {!wasGameConceded && " Frame won by Player " + getWinningPlayer()}
+          </div>}
         <div>
           <div className="scores">
             <table style={{ border: "1" }}>
@@ -302,9 +463,38 @@ const App = () => {
             </table>
           </div>
 
+          {getSnookersRequiredTarget().isSnookersRequiredTargetPossible &&
+            <>
+              <div>
+                Snookers Required Target : {getSnookersRequiredTarget().targetValue}
+              </div>
+              <div>
+                {getSnookersRequiredTarget().redCount > 0 &&
+                  <div>
+                    <span className="ball red">{getSnookersRequiredTarget().redCount}</span>
+                    <span className="ball black">{getSnookersRequiredTarget().blackCount}</span>
+                  </div>
+                }
+                <div>
+                  {getSnookersRequiredTarget().isYellowRequired && <span className="ball yellow"></span>}
+                  {getSnookersRequiredTarget().isGreenRequired && <span className="ball green"></span>}
+                  {getSnookersRequiredTarget().isBrownRequired && <span className="ball brown"></span>}
+                  {getSnookersRequiredTarget().isBlueRequired && <span className="ball blue"></span>}
+                  {getSnookersRequiredTarget().isPinkRequired && <span className="ball pink"></span>}
+                  {getSnookersRequiredTarget().isBlackRequired && <span className="ball black"></span>}
+                </div>
+              </div>
+            </>
+          }
+
+          {/* <div>
+            Snookers Required Target JSON:
+            <pre style={{ fontSize: 14 }}>{JSON.stringify(getSnookersRequiredTarget(), null, 2)}</pre>
+          </div> */}
+
           {!isGameOver &&
             <div style={{ marginTop: 15 }}>
-              {areSnookersRequiredForOtherPlayer() && <div style={{ backgroundColor: "orange" }}>Player {(playerNumber + 1) % 2 === 0 ? 1 : 2} : Snookers Required!!!!</div>}
+              {areSnookersRequiredForOtherPlayer() && <div style={{ backgroundColor: "orange", paddingTop: 10, paddingBottom: 10 }}>Player {(playerNumber + 1) % 2 === 0 ? 1 : 2} : Snookers Required!!!!</div>}
               {areSnookersRequiredForCurrentPlayer() && <div><button className="negative" onClickCapture={concede}>Player {(playerNumber) % 2 === 0 ? 1 : 2} Concedes</button></div>}
             </div>
           }
@@ -312,7 +502,7 @@ const App = () => {
           {!isGameOver &&
             <>
               <div>
-                Points Remaining: <span>{pointsRemaining}</span>
+                Points Remaining for Current Player: <span>{pointsRemaining}</span>
               </div>
               <div>
                 Points Remaining For Player {(playerNumber + 1) % 2 === 0 ? 1 : 2}: <span>{pointsRemainingForOtherPlayer}</span>
