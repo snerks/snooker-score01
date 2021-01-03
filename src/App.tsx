@@ -265,14 +265,13 @@ const App = () => {
               </thead>
               <tbody>
                 <tr>
+                  <td style={{ width: 120, textAlign: 'left', paddingLeft: 10 }}>Player 1</td>
                   <td style={{ width: 50, color: "yellow" }}>{<span>{playerNumber === 0 ? "⇨" : " "} </span>}</td>
-                  <td style={{ width: 200, textAlign: 'left' }}>Player 1</td>
                   <td><span>{playerPoints[0]}</span></td>
                   <td>-</td>
                   <td><span>{playerPoints[1]}</span></td>
-                  <td style={{ width: 200, textAlign: 'right' }}>Player 2</td>
-                  {/* <td>{playerNumber === 1 && <span> ⇦</span>}</td> */}
                   <td style={{ width: 50, color: "yellow" }}>{<span> {playerNumber === 1 ? "⇦" : " "}</span>}</td>
+                  <td style={{ width: 120, textAlign: 'right', paddingRight: 10 }}>Player 2</td>
                 </tr>
               </tbody>
             </table>
