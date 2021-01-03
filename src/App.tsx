@@ -23,7 +23,27 @@ const App = () => {
 
   const [isGameOver, setIsGameOver] = useState(false);
 
+  const [wasLastShotAFoul, setWasLastShotAFoul] = useState(false);
+
+  const getOtherPlayerIndex = () => {
+    return (playerNumber + 1) % 2;
+  }
+
+  const getOtherPlayerNumber = () => {
+    return getOtherPlayerIndex() + 1;
+  }
+
+  const setOtherPlayerIndex = () => {
+    setPlayerNumber(getOtherPlayerIndex());
+  }
+
+  const playAgain = () => {
+    setOtherPlayerIndex();
+    noFoul();
+  }
+
   const potNothing = () => {
+    noFoul();
     setPlayerNumber((playerNumber + 1) % 2);
     setIsRedOn(redsRemaining > 0);
     setPointsRemaining((redsRemaining * 8) + 27);
@@ -87,9 +107,16 @@ const App = () => {
 
     setPlayerNumber((playerNumber + 1) % 2);
     setIsRedOn(redsRemaining > 0);
+
+    setWasLastShotAFoul(true);
+  }
+
+  const noFoul = () => {
+    setWasLastShotAFoul(false);
   }
 
   const potBall = (value: number) => {
+    noFoul();
     setPointsRemaining(pointsRemaining - value);
 
     if (playerNumber === 0) {
@@ -222,22 +249,48 @@ const App = () => {
 
         {isGameOver && <div>Game Over!</div>}
         <div>
-          <div>
-            Current Player: <span>{playerNumber + 1}</span>
+          <div className="scores">
+            {/* <div style={{ display: 'inline-block', padding: 5 }}>
+              {playerNumber === 0 && <span>⇨ </span>}
+              Player 1: <span>{playerPoints[0]}</span>
+            </div>
+            -
+            <div style={{ display: 'inline-block', padding: 5 }}>
+              <span>{playerPoints[1]}</span> : Player 2
+              {playerNumber === 1 && <span> ⇦</span>}
+            </div> */}
+            <table style={{ border: "1" }}>
+              <thead>
 
+              </thead>
+              <tbody>
+                <tr>
+                  <td style={{ width: 50, color: "yellow" }}>{<span>{playerNumber === 0 ? "⇨" : " "} </span>}</td>
+                  <td style={{ width: 200, textAlign: 'left' }}>Player 1</td>
+                  <td><span>{playerPoints[0]}</span></td>
+                  <td>-</td>
+                  <td><span>{playerPoints[1]}</span></td>
+                  <td style={{ width: 200, textAlign: 'right' }}>Player 2</td>
+                  {/* <td>{playerNumber === 1 && <span> ⇦</span>}</td> */}
+                  <td style={{ width: 50, color: "yellow" }}>{<span> {playerNumber === 1 ? "⇦" : " "}</span>}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          {/* <div>
+            wasLastShotAFoul = [{wasLastShotAFoul ? "Yes" : "No"}]
+          </div> */}
+          <div style={{ marginTop: 75 }}>
+            Current Player: <span>{playerNumber + 1}</span>
             {areSnookersRequired() && <div style={{ backgroundColor: "orange" }}>Player {(playerNumber + 1) % 2 === 0 ? 1 : 2} : Snookers Required!!!!</div>}
           </div>
+          {wasLastShotAFoul && <div><button onClickCapture={playAgain}>Player {getOtherPlayerNumber()} Play Again</button></div>}
           <div>
             Points Remaining: <span>{pointsRemaining}</span>
           </div>
           <div>
             Points Remaining For Player {(playerNumber + 1) % 2 === 0 ? 1 : 2}: <span>{pointsRemainingForOtherPlayer}</span>
-          </div>
-          <div>
-            Player 1: <span>{playerPoints[0]}</span>
-          </div>
-          <div>
-            Player 2: <span>{playerPoints[1]}</span>
           </div>
         </div>
 
