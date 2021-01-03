@@ -25,6 +25,30 @@ const App = () => {
 
   const [wasLastShotAFoul, setWasLastShotAFoul] = useState(false);
 
+  const newGame = () => {
+    setRedsRemaining(15);
+    setPointsRemaining(147);
+    setPointsRemainingForOtherPlayer(147);
+
+    setPlayerPoints([0, 0]);
+    setPlayerNumber(0);
+
+    setIsFinalRedColourGone(false);
+
+    setIsRedOn(true);
+
+    setIsYellowOn(true);
+    setIsGreenOn(true);
+    setIsBrownOn(true);
+    setIsBlueOn(true);
+    setIsPinkOn(true);
+    setIsBlackOn(true);
+
+    setWasLastShotAFoul(false);
+
+    setIsGameOver(false);
+  }
+
   const getOtherPlayerIndex = () => {
     return (playerNumber + 1) % 2;
   }
@@ -40,6 +64,10 @@ const App = () => {
   const playAgain = () => {
     setOtherPlayerIndex();
     noFoul();
+  }
+
+  const concede = () => {
+    setIsGameOver(true);
   }
 
   const potNothing = () => {
@@ -250,15 +278,6 @@ const App = () => {
         {isGameOver && <div>Game Over!</div>}
         <div>
           <div className="scores">
-            {/* <div style={{ display: 'inline-block', padding: 5 }}>
-              {playerNumber === 0 && <span>⇨ </span>}
-              Player 1: <span>{playerPoints[0]}</span>
-            </div>
-            -
-            <div style={{ display: 'inline-block', padding: 5 }}>
-              <span>{playerPoints[1]}</span> : Player 2
-              {playerNumber === 1 && <span> ⇦</span>}
-            </div> */}
             <table style={{ border: "1" }}>
               <thead>
 
@@ -277,22 +296,25 @@ const App = () => {
             </table>
           </div>
 
-          {/* <div>
-            wasLastShotAFoul = [{wasLastShotAFoul ? "Yes" : "No"}]
-          </div> */}
-          <div style={{ marginTop: 15 }}>
-            {/* Current Player: <span>{playerNumber + 1}</span> */}
-            {areSnookersRequired() && <div style={{ backgroundColor: "orange" }}>Player {(playerNumber + 1) % 2 === 0 ? 1 : 2} : Snookers Required!!!!</div>}
-          </div>
-          {wasLastShotAFoul && <div><button onClickCapture={playAgain}>Player {getOtherPlayerNumber()} Play Again</button></div>}
-          <div>
-            Points Remaining: <span>{pointsRemaining}</span>
-          </div>
-          <div>
-            Points Remaining For Player {(playerNumber + 1) % 2 === 0 ? 1 : 2}: <span>{pointsRemainingForOtherPlayer}</span>
-          </div>
+          {!isGameOver &&
+            <div style={{ marginTop: 15 }}>
+              {areSnookersRequired() && <div style={{ backgroundColor: "orange" }}>Player {(playerNumber + 1) % 2 === 0 ? 1 : 2} : Snookers Required!!!!</div>}
+              {areSnookersRequired() && <div><button onClickCapture={concede}>Player {getOtherPlayerNumber()} Concede</button></div>}
+            </div>
+          }
+          {!isGameOver && wasLastShotAFoul && <div><button onClickCapture={playAgain}>Player {getOtherPlayerNumber()} Play Again</button></div>}
+          {!isGameOver &&
+            <>
+              <div>
+                Points Remaining: <span>{pointsRemaining}</span>
+              </div>
+              <div>
+                Points Remaining For Player {(playerNumber + 1) % 2 === 0 ? 1 : 2}: <span>{pointsRemainingForOtherPlayer}</span>
+              </div>
+            </>
+          }
+          {isGameOver && <div><button onClickCapture={newGame}>New Game</button></div>}
         </div>
-
       </header>
     </div>
   );
