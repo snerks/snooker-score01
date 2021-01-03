@@ -22,6 +22,7 @@ const App = () => {
   const [isBlackOn, setIsBlackOn] = useState(true);
 
   const [isGameOver, setIsGameOver] = useState(false);
+  const [wasGameConceded, setWasGameConceded] = useState(false);
 
   const [wasLastShotAFoul, setWasLastShotAFoul] = useState(false);
 
@@ -68,6 +69,7 @@ const App = () => {
 
   const concede = () => {
     setIsGameOver(true);
+    setWasGameConceded(true);
   }
 
   const potNothing = () => {
@@ -122,8 +124,12 @@ const App = () => {
     }
   }
 
-  const areSnookersRequired = () => {
+  const areSnookersRequiredForOtherPlayer = () => {
     return (playerPoints[1 - playerNumber] + pointsRemainingForOtherPlayer) < playerPoints[playerNumber];
+  }
+
+  const areSnookersRequiredForCurrentPlayer = () => {
+    return (playerPoints[playerNumber] + pointsRemaining) < playerPoints[1 - playerNumber];
   }
 
   const foul = (value: number) => {
@@ -228,10 +234,10 @@ const App = () => {
       <header className="App-header">
         {!isGameOver &&
           <div>
-            Remaining Reds: {redsRemaining}
+            {/* Remaining Reds: {redsRemaining} */}
             <div>
-              Pot
-          </div>
+              Pot {isRedOn ? "Red" : "Colour"} {isRedOn && redsRemaining > 0 ? "(" + redsRemaining + " remaining)" : null}
+            </div>
             <div>
               {isRedOn &&
                 <div>
@@ -275,7 +281,7 @@ const App = () => {
           </div>
         }
 
-        {isGameOver && <div>Game Over!</div>}
+        {isGameOver && <div>Frame Over! {wasGameConceded && "Frame conceded by Player " + (playerNumber + 1)}</div>}
         <div>
           <div className="scores">
             <table style={{ border: "1" }}>
@@ -298,11 +304,11 @@ const App = () => {
 
           {!isGameOver &&
             <div style={{ marginTop: 15 }}>
-              {areSnookersRequired() && <div style={{ backgroundColor: "orange" }}>Player {(playerNumber + 1) % 2 === 0 ? 1 : 2} : Snookers Required!!!!</div>}
-              {areSnookersRequired() && <div><button onClickCapture={concede}>Player {getOtherPlayerNumber()} Concede</button></div>}
+              {areSnookersRequiredForOtherPlayer() && <div style={{ backgroundColor: "orange" }}>Player {(playerNumber + 1) % 2 === 0 ? 1 : 2} : Snookers Required!!!!</div>}
+              {areSnookersRequiredForCurrentPlayer() && <div><button className="negative" onClickCapture={concede}>Player {(playerNumber) % 2 === 0 ? 1 : 2} Concedes</button></div>}
             </div>
           }
-          {!isGameOver && wasLastShotAFoul && <div><button onClickCapture={playAgain}>Player {getOtherPlayerNumber()} Play Again</button></div>}
+          {!isGameOver && wasLastShotAFoul && <div><button className="negative" onClickCapture={playAgain}>Player {getOtherPlayerNumber()} Play Again</button></div>}
           {!isGameOver &&
             <>
               <div>
@@ -313,7 +319,7 @@ const App = () => {
               </div>
             </>
           }
-          {isGameOver && <div><button onClickCapture={newGame}>New Game</button></div>}
+          {isGameOver && <div><button className="positive" onClickCapture={newGame}>New Frame</button></div>}
         </div>
       </header>
     </div>

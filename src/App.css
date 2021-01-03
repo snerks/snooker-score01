@@ -60,7 +60,6 @@
 }
 
 button {
-  background-color: red;
   border: none;
   color: white;
   padding: 15px 32px;
@@ -68,6 +67,15 @@ button {
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+  margin-top: 10px;
+}
+
+.negative {
+  background-color: red;
+}
+
+.positive {
+  background-color: rgb(60, 180, 113);
 }
 
 .scores {
