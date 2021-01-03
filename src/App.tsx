@@ -265,13 +265,13 @@ const App = () => {
               </thead>
               <tbody>
                 <tr>
-                  <td style={{ width: 60, textAlign: 'left', paddingLeft: 10 }}>Player 1</td>
+                  <td className="player player1">Player 1</td>
                   <td style={{ width: 50, color: "yellow" }}>{<span>{playerNumber === 0 ? "⇨" : " "} </span>}</td>
                   <td><span>{playerPoints[0]}</span></td>
                   <td>-</td>
                   <td><span>{playerPoints[1]}</span></td>
                   <td style={{ width: 50, color: "yellow" }}>{<span> {playerNumber === 1 ? "⇦" : " "}</span>}</td>
-                  <td style={{ width: 60, textAlign: 'right', paddingRight: 10 }}>Player 2</td>
+                  <td className="player player2">Player 2</td>
                 </tr>
               </tbody>
             </table>
@@ -280,8 +280,8 @@ const App = () => {
           {/* <div>
             wasLastShotAFoul = [{wasLastShotAFoul ? "Yes" : "No"}]
           </div> */}
-          <div style={{ marginTop: 75 }}>
-            Current Player: <span>{playerNumber + 1}</span>
+          <div style={{ marginTop: 15 }}>
+            {/* Current Player: <span>{playerNumber + 1}</span> */}
             {areSnookersRequired() && <div style={{ backgroundColor: "orange" }}>Player {(playerNumber + 1) % 2 === 0 ? 1 : 2} : Snookers Required!!!!</div>}
           </div>
           {wasLastShotAFoul && <div><button onClickCapture={playAgain}>Player {getOtherPlayerNumber()} Play Again</button></div>}
