@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
-// import logo from './logo.svg';
 import './App.css';
 
-// interface IPlayerPointsState {
-//   0: number;
-//   1: number;
-// }
 
 const App = () => {
   const [redsRemaining, setRedsRemaining] = useState(15);
@@ -78,10 +73,6 @@ const App = () => {
       setIsGameOver(true);
     }
   }
-
-  // public get areSnookersRequired() {
-  //   return pointsRemainingForOtherPlayer < playerPoints[playerNumber];
-  // }
 
   const areSnookersRequired = () => {
     return (playerPoints[1 - playerNumber] + pointsRemainingForOtherPlayer) < playerPoints[playerNumber];
@@ -180,18 +171,6 @@ const App = () => {
   return (
     <div className="App">
       <header className="App-header">
-        {/* <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a> */}
         {!isGameOver &&
           <div>
             Remaining Reds: {redsRemaining}
@@ -199,7 +178,6 @@ const App = () => {
               Pot
           </div>
             <div>
-              {/* <span className="ball">Pot</span> */}
               {isRedOn &&
                 <div>
                   <span className="ball red" onClick={() => potRed()}>{redsRemaining}</span>
@@ -247,12 +225,6 @@ const App = () => {
           <div>
             Current Player: <span>{playerNumber + 1}</span>
 
-            {/* <div>
-              PointsRemainingForOtherPlayer: {pointsRemainingForOtherPlayer}
-            </div>
-            <div>
-              PlayerPoints[{playerNumber}]: {playerPoints[playerNumber]}
-            </div> */}
             {areSnookersRequired() && <div style={{ backgroundColor: "orange" }}>Player {(playerNumber + 1) % 2 === 0 ? 1 : 2} : Snookers Required!!!!</div>}
           </div>
           <div>
