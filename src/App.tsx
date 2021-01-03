@@ -180,12 +180,12 @@ const App = () => {
             <div>
               {isRedOn &&
                 <div>
-                  <span className="ball red" onClick={() => potRed()}>{redsRemaining}</span>
-                  <span className="ball red" onClick={() => potRed()}>{redsRemaining}</span>
-                  <span className="ball red" onClick={() => potRed()}>{redsRemaining}</span>
-                  <span className="ball red" onClick={() => potRed()}>{redsRemaining}</span>
-                  <span className="ball red" onClick={() => potRed()}>{redsRemaining}</span>
-                  <span className="ball red" onClick={() => potRed()}>{redsRemaining}</span>
+                  <span className="ball red" onClick={() => potRed()}></span>
+                  <span className="ball red" onClick={() => potRed()}></span>
+                  <span className="ball red" onClick={() => potRed()}></span>
+                  <span className="ball red" onClick={() => potRed()}></span>
+                  <span className="ball red" onClick={() => potRed()}></span>
+                  <span className="ball red" onClick={() => potRed()}></span>
                 </div>
               }
               {!isRedOn &&
@@ -209,13 +209,13 @@ const App = () => {
               Foul
           </div>
             <div>
-              <span className="ball red" onClick={() => foul(4)}>X</span>
-              <span className="ball yellow" onClick={() => foul(4)}>X</span>
+              <span className="ball red" onClick={() => foul(4)}>4</span>
+              {/* <span className="ball yellow" onClick={() => foul(4)}>X</span>
               <span className="ball green" onClick={() => foul(4)}>X</span>
-              <span className="ball brown" onClick={() => foul(4)}>X</span>
-              <span className="ball blue" onClick={() => foul(5)}>X</span>
-              <span className="ball pink" onClick={() => foul(6)}>X</span>
-              <span className="ball black" onClick={() => foul(7)}>X</span>
+              <span className="ball brown" onClick={() => foul(4)}>X</span> */}
+              <span className="ball blue" onClick={() => foul(5)}>5</span>
+              <span className="ball pink" onClick={() => foul(6)}>6</span>
+              <span className="ball black" onClick={() => foul(7)}>7</span>
             </div>
           </div>
         }
